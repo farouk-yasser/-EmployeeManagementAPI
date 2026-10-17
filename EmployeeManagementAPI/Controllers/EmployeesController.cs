@@ -1,4 +1,4 @@
-﻿using EmployeeManagementAPI.Models;
+﻿using EmployeeManagementAPI.DTOs;
 using EmployeeManagementAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,6 @@ public class EmployeesController : ControllerBase
         _employeeService = employeeService;
     }
 
-    // GET: api/Employees
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
@@ -24,9 +23,10 @@ public class EmployeesController : ControllerBase
         return Ok(employees);
     }
 
-    // GET: api/Employees/1
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(
+        int id,
+        CancellationToken cancellationToken)
     {
         var employee = await _employeeService.GetByIdAsync(id, cancellationToken);
 
@@ -36,11 +36,15 @@ public class EmployeesController : ControllerBase
         return Ok(employee);
     }
 
-    // POST: api/Employees
     [HttpPost]
-    public async Task<IActionResult> Create(Employee employee, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(
+        CreateEmployeeDto employeeDto,
+        CancellationToken cancellationToken)
     {
-        var createdEmployee = await _employeeService.CreateAsync(employee, cancellationToken);
+        var createdEmployee = await _employeeService.CreateAsync(
+            employeeDto,
+            cancellationToken
+        );
 
         return CreatedAtAction(
             nameof(GetById),
@@ -49,11 +53,17 @@ public class EmployeesController : ControllerBase
         );
     }
 
-    // PUT: api/Employees/1
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Employee employee, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(
+        int id,
+        UpdateEmployeeDto employeeDto,
+        CancellationToken cancellationToken)
     {
-        var result = await _employeeService.UpdateAsync(id, employee, cancellationToken);
+        var result = await _employeeService.UpdateAsync(
+            id,
+            employeeDto,
+            cancellationToken
+        );
 
         if (!result)
             return NotFound();
@@ -61,9 +71,10 @@ public class EmployeesController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/Employees/1
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(
+        int id,
+        CancellationToken cancellationToken)
     {
         var result = await _employeeService.DeleteAsync(id, cancellationToken);
 

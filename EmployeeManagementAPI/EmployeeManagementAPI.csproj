@@ -25,8 +25,4 @@
     <ContainerPort Include="8081" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Performance\" />
-  </ItemGroup>
-
 </Project>
